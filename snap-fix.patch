@@ -1,0 +1,17 @@
+diff --git a/src/interactive.c b/src/interactive.c
+index 3caac79..340e6e2 100644
+--- a/src/interactive.c
++++ b/src/interactive.c
+@@ -117,6 +117,12 @@ snap_to_edge(struct view *view)
+ 	wlr_output_layout_output_coords(view->server->output_layout,
+ 		view->output->wlr_output, &cursor_x, &cursor_y);
+ 
++	struct wlr_output *wlr_output = view->output->wlr_output;
++	if(cursor_x < 0 || cursor_x > wlr_output->width
++			|| cursor_y < 0 || cursor_y >= wlr_output->height) {
++		return false;
++	}
++
+ 	/*
+ 	 * Don't store natural geometry here (it was
+ 	 * stored already in interactive_begin())

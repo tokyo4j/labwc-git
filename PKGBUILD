@@ -2,7 +2,7 @@
 
 _pkgname=labwc
 pkgname=labwc-git
-pkgver=0.6.4.r68.ge8ec8ea
+pkgver=0.6.5.r82.gdb591d1
 pkgrel=1
 pkgdesc='stacking wayland compositor with look and feel from openbox (git version)'
 url="https://github.com/labwc/labwc"
@@ -13,8 +13,8 @@ makedepends=('git' 'meson' 'scdoc' 'wayland-protocols')
 optdepends=("bemenu: default launcher via Alt+F3")
 conflicts=(labwc)
 provides=(labwc)
-source=("git+https://github.com/labwc/${_pkgname}.git")
-md5sums=('SKIP')
+source=("git+https://github.com/labwc/${_pkgname}.git" 'snap-fix.patch')
+md5sums=('SKIP' 'SKIP')
 
 
 pkgver() {
@@ -23,6 +23,7 @@ pkgver() {
 }
 
 build() {
+  git -C "$_pkgname" apply ../snap-fix.patch
   arch-meson -Dman-pages=enabled "$_pkgname" build
   meson compile -C build
 }
